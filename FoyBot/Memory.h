@@ -3,16 +3,14 @@
 #include "Console.h"
 using namespace std;
 void readDump(DWORD addrInDumpPacket, DWORD packetSize) {
-
-
-	LPVOID dumpBuffer[10];
-	ReadProcessMemory(GetCurrentProcess(), (LPVOID)addrInDumpPacket, &dumpBuffer[0], packetSize, NULL);
+	char buf[100];
+	ReadProcessMemory(GetCurrentProcess(), (LPVOID)addrInDumpPacket, buf, packetSize, NULL);
 
 	char strBuffer[500];
 	int length = 0;
-	for (int i = 0; i < ((int)packetSize); i++)
+	for (int i = 0; i < packetSize; i++)
 	{
-		length += sprintf(strBuffer + length, " %02x", (DWORD)dumpBuffer[i]);
+		length += sprintf(strBuffer + length, "%02X", (unsigned char)buf[i]);
 	}
 
 	Console::writeLine("Size:%02x Addr:%02x Packet: %s", packetSize, addrInDumpPacket, strBuffer);
