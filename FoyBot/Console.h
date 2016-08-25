@@ -14,6 +14,8 @@ public:
 	static void create();
 	static void setColor(int color);
 	static void writeLine(const char* fmt, ...);
+	static void write(const char* fmt, ...);
+
 
 	/*
 

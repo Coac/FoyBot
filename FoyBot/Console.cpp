@@ -61,6 +61,17 @@ void Console::setColor(int color) {
 	return;
 }
 
+// Need refactor duplicated code 
+void Console::write(const char* fmt, ...) {
+	if (!fmt)
+		return;
+
+	char buffer[1024];
+	vsprintf(buffer, fmt, (char*)((&fmt) + 1));
+
+	std::cout << buffer;
+
+}
 void Console::writeLine(const char* fmt, ...) {
 	if (!fmt)
 		return;
