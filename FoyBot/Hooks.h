@@ -34,20 +34,19 @@ __declspec(naked) void testHook()
 
 
 DWORD sendFunctionAddr = 0;
-LPBYTE PtrToZero = 0;
+LPBYTE ptrToDetermine = 0;
 
 void Send_To_Server(LPBYTE Buffer)
 {
 	Sleep(150);
-	DWORD data[100] = { 0x0 };
-	PtrToZero = allocateMem(&data, sizeof(data));
+	ptrToDetermine = (LPBYTE)0xC74900; // la valeur de ECX au moment du send
 
 	__asm
 	{
-		MOV ECX, PtrToZero
+		MOV ECX, ptrToDetermine
 		PUSH Buffer
-			PUSH 8
-			CALL sendFunctionAddr
+		PUSH 8
+		CALL sendFunctionAddr
 	}
 }
 

@@ -19,19 +19,21 @@ void InitiateHooksTest()
 
 
 LPBYTE addressss = 0;
-DWORD WINAPI testThread()
+DWORD WINAPI sendServerThread()
 {
+	// on doit le reverse
+	//39040200 E9921E00
+	//00204093 00E1299E
+	// puis reverse octet par octet
+	//00020439 001E92E9
 
-	DWORD data[] = { 0x20439, 0x1e8e02 };
-	addressss = allocateMem(&data, sizeof(data));
-	Console::writeLine("%02x", (DWORD)addressss);
 	for (;; Sleep(150))
 	{
-
 		if (GetAsyncKeyState(VK_UP))
 		{
+			DWORD data[] = { 0x00020439, 0x001E92E9 };
 			Console::writeLine("Hey from key UP");
-			Send_To_Server(addressss);
+			Send_To_Server((LPBYTE)data);
 		}
 	}
 }
@@ -47,7 +49,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved)
 
 		InitiateHooksTest();
 
-		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)testThread, NULL, NULL, NULL);
+		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)sendServerThread, NULL, NULL, NULL);
 		break;
 
 	case DLL_PROCESS_DETACH:
