@@ -15,7 +15,7 @@ void readDump(DWORD addrInDumpPacket, DWORD packetSize) {
 		length += sprintf(strBuffer + length, "%02X", (unsigned char)buf[i]);
 	}
 	Console::setColor(14);
-	Console::write("%s ", strBuffer);
+	Console::write("%s", strBuffer);
 	Console::setColor(7);
 
 

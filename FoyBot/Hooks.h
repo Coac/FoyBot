@@ -8,7 +8,7 @@ DWORD TestJumpBack = 0;
 DWORD stackElementNotUsed = 0;
 DWORD packetSize = 0;
 DWORD addrInDumpPacket = 0;
-__declspec(naked) void testHook()
+__declspec(naked) void readPacketBeforeSendHook()
 {
 	__asm {
 
