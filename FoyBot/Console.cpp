@@ -18,7 +18,7 @@ void Console::create() {
 	FILE *fptr;
 
 	AllocConsole();
-	SetConsoleTitle("Console");
+	SetConsoleTitle("FoyBot v0.1");
 
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleInfo);
 
@@ -81,3 +81,4 @@ void Console::writeLine(const char* fmt, ...) {
 
 	std::cout << buffer << std::endl;
 }
+

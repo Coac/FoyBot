@@ -74,7 +74,12 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved)
 	{
 	case DLL_PROCESS_ATTACH:
 		Console::create();
-		Console::writeLine("Success");
+		Console::setColor(12);
+		Console::writeLine("Succesfully injected");
+		Console::setColor(11);
+		Console::writeLine("Started FoyBoy v0.1");
+
+		Console::setColor(7);
 
 		InitiateHooks();
 
