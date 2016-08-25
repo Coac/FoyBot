@@ -80,5 +80,4 @@ void Console::writeLine(const char* fmt, ...) {
 	vsprintf(buffer, fmt, (char*)((&fmt) + 1));
 
 	std::cout << buffer << std::endl;
-
 }

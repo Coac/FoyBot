@@ -4,7 +4,6 @@
 #include "Console.h"
 #include "Hooks.h"
 
-
 void InitiateHooksTest()
 {
 	DWORD test = FindPattern("_FoY.exe", "\x55\x8B\xEC\x56\x8B\xF1\x80\x7E\x78\x00", "xxxxxxxxxx");
@@ -23,17 +22,14 @@ DWORD WINAPI sendServerThread()
 {
 	// on doit le reverse
 	//39040200 E9921E00
-	//00204093 00E1299E
-	// puis reverse octet par octet
-	//00020439 001E92E9
 
 	for (;; Sleep(150))
 	{
 		if (GetAsyncKeyState(VK_UP))
 		{
-			DWORD data[] = { 0x00020439, 0x001E92E9 };
+			BYTE data[] = { 0x39, 0x04, 0x02, 0x00, 0xE9, 0x92, 0x1E, 0x00};
 			Console::writeLine("Hey from key UP");
-			Send_To_Server((LPBYTE)data);
+			Send_To_Server((LPBYTE)data, 8);
 		}
 	}
 }
