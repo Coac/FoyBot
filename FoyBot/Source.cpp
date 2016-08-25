@@ -27,7 +27,7 @@ void processCmd(string &input) {
 	else {
 		string cmd = elems.front();
 		if (cmd == "send") {		
-			char buffer[10];
+			char buffer[100];
 			
 			int size = hex2bin(strdup(elems.at(1).c_str()), buffer);
 
