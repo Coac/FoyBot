@@ -45,7 +45,7 @@ void Console::create() {
 
 
 
-void Console::setColor(int color) {
+void Console::setColor(const int &color) {
 	WORD wColor;
 
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);

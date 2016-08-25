@@ -2,7 +2,10 @@
 
 #include "Console.h"
 using namespace std;
-void readDump(DWORD addrInDumpPacket, DWORD packetSize) {
+
+// TODO need refactor this function
+void readDump(const DWORD &addrInDumpPacket, const DWORD &packetSize) {
+	Console::write("[Send] ");
 	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
 
 	char buf[100];
