@@ -14,6 +14,10 @@ void printByteToHex(BYTE buf[], const unsigned int &packetSize) {
 	Console::write("%s", strBuffer);
 	Console::setColor(7);
 
+	if (packetSize <= 2) {
+		Console::writeLine(" ");
+		return;
+	}
 
 	char strBuffer2[500];
 	length = 0;
