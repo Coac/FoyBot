@@ -81,7 +81,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Console.h" />
+    <ClInclude Include="Console.hpp" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="Hooks.h" />

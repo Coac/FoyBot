@@ -1,7 +1,7 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 
-#include "Console.h"
+#include "Console.hpp"
 #include "Hooks.h"
 #include"StringUtils.h"
 

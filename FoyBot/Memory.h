@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Console.h"
+#include "Console.hpp"
 using namespace std;
 
 // TODO need refactor this function
