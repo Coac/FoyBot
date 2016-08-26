@@ -3,14 +3,7 @@
 #include "Console.hpp"
 using namespace std;
 
-// TODO need refactor this function
-void readDump(const DWORD &addrInDumpPacket, const DWORD &packetSize) {
-	Console::write("[Send] ");
-	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
-
-	char buf[100];
-	ReadProcessMemory(GetCurrentProcess(), (LPVOID)addrInDumpPacket, buf, packetSize, NULL);
-
+void printByteToHex(BYTE buf[], const unsigned int &packetSize) {
 	char strBuffer[10];
 	int length = 0;
 	for (int i = 0; i < 2; i++)
@@ -29,7 +22,13 @@ void readDump(const DWORD &addrInDumpPacket, const DWORD &packetSize) {
 		length += sprintf(strBuffer2 + length, "%02X", (unsigned char)buf[i]);
 	}
 	Console::writeLine("%s", strBuffer2);
+}
 
+// TODO need refactor this function
+void readDump(const DWORD &addrInDumpPacket, const unsigned int &packetSize) {
+	BYTE buf[100];
+	ReadProcessMemory(GetCurrentProcess(), (LPVOID)addrInDumpPacket, buf, packetSize, NULL);
+	printByteToHex(buf, packetSize);
 }
 
 LPBYTE allocateMem(LPCVOID _buffer, SIZE_T size) {

@@ -6,7 +6,7 @@
 
 DWORD TestJumpBack = 0;
 DWORD stackElementNotUsed = 0;
-DWORD packetSize = 0;
+unsigned int packetSize = 0;
 DWORD addrInDumpPacket = 0;
 __declspec(naked) void readPacketBeforeSendHook()
 {
@@ -26,8 +26,9 @@ __declspec(naked) void readPacketBeforeSendHook()
 
 	}
 
+	Console::write("[Send] ");
+	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
 	readDump(addrInDumpPacket, packetSize);
-
 
 	__asm jmp[TestJumpBack]
 }
