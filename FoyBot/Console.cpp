@@ -66,7 +66,7 @@ void Console::write(const char* fmt, ...) {
 	if (!fmt)
 		return;
 
-	char buffer[1024];
+	char buffer[4096];
 	vsprintf(buffer, fmt, (char*)((&fmt) + 1));
 
 	std::cout << buffer;
@@ -76,7 +76,7 @@ void Console::writeLine(const char* fmt, ...) {
 	if (!fmt)
 		return;
 
-	char buffer[1024];
+	char buffer[4096];
 	vsprintf(buffer, fmt, (char*)((&fmt) + 1));
 
 	std::cout << buffer << std::endl;

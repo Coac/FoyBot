@@ -9,11 +9,23 @@ void InitiateHooks()
 {
 	DWORD test = FindPattern("_FoY.exe", "\x55\x8B\xEC\x56\x8B\xF1\x80\x7E\x78\x00", "xxxxxxxxxx");
 	sendFunctionAddr = test;
+	Console::writeLine("sendFunctionAddr : %02X", sendFunctionAddr);
+
 	//test += 80;
 
 	TestJumpBack = test + 0x6;
 
 	PlaceJMP((BYTE*)test, (DWORD)readPacketBeforeSendHook);
+
+	DWORD addrRecvFunc = FindPattern("_FoY.exe", "\x3B\xC3\x7E\x22\x8D", "xxxxx");
+	addrRecvFunc += 10;
+	Console::writeLine("addrRecvFunc : %02X", addrRecvFunc);
+
+	PlaceJMP((BYTE*)addrRecvFunc, (DWORD)readPacketRecv);
+
+
+		
+	jumpBackRecv = addrRecvFunc + 0x5;
 
 }
 

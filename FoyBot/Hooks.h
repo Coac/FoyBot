@@ -33,6 +33,50 @@ __declspec(naked) void readPacketBeforeSendHook()
 	__asm jmp[TestJumpBack]
 }
 
+DWORD recvPacketSize = 0;
+DWORD recvAddrDump = 0;
+DWORD jumpBackRecv = 0;
+__declspec(naked) void readPacketRecv()
+{
+
+
+	__asm {
+
+		MOV recvPacketSize, EAX
+		MOV recvAddrDump, EDX
+
+		PUSH EDX
+		PUSH EAX
+		lea ecx, dword ptr ds : [esi + 0x40]
+
+	}
+	
+	//Console::write("[Recv] ");
+	//Console::write("Size:%02x Addr:%02x Packet: ", recvPacketSize, recvAddrDump);
+	//readDump(recvAddrDump, recvPacketSize);
+	__asm {
+		PUSH ESI
+		PUSH EDI
+		PUSH ECX
+		PUSH EDI
+		PUSH EBX
+		PUSH EAX
+	}
+	Console::write("[Recv] ");
+	Console::write("Size:%02x Addr:%02x Packet: ", recvPacketSize, recvAddrDump);
+	readDump(recvAddrDump, recvPacketSize);
+	__asm {
+		POP EAX
+		POP EBX
+		POP EDI
+		POP ECX
+		POP EDI
+		POP ESI
+	}
+
+	__asm jmp[jumpBackRecv]
+}
+
 
 DWORD sendFunctionAddr = 0;
 LPBYTE ptrToDetermine = 0;
