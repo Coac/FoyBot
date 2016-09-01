@@ -62,9 +62,12 @@ __declspec(naked) void readPacketRecv()
 		PUSH EBX
 		PUSH EAX
 	}
+
+	Console::setColor(8);
 	Console::write("[Recv] ");
 	Console::write("Size:%02x Addr:%02x Packet: ", recvPacketSize, recvAddrDump);
 	readDump(recvAddrDump, recvPacketSize);
+	Console::setColor(7);
 	__asm {
 		POP EAX
 		POP EBX
