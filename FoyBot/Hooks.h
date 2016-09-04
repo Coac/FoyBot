@@ -3,10 +3,22 @@
 
 
 void processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
-	Console::write("[Send] ");
-	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
+	Console::write("[Send]");
 	BYTE bytes[4096];
 	readDump(addrInDumpPacket, packetSize, bytes);
+
+	int packetHeader = bytes[0] << 8 | bytes[1] ;
+	switch (packetHeader)
+	{
+	case 0xF300:
+		Console::write("[Chat]");
+		break;
+	default:
+		break;
+	}
+	Console::write(" ");
+
+	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
 	printByteToHex(bytes, packetSize);
 }
 
@@ -43,10 +55,22 @@ __declspec(naked) void readPacketBeforeSendHook()
 
 void processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
 	Console::setColor(8);
-	Console::write("[Recv] ");
-	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
+	Console::write("[Recv]");
 	BYTE bytes[4096];
 	readDump(addrInDumpPacket, packetSize, bytes);
+
+	int packetHeader = bytes[0] << 8 | bytes[1];
+	switch (packetHeader)
+	{
+	case 0x8E00:
+		Console::write("[Chat]");
+		break;
+	default:
+		break;
+	}
+	Console::write(" ");
+
+	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
 	printByteToHex(bytes, packetSize);
 	Console::setColor(7);
 }
