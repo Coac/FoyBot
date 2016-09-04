@@ -2,6 +2,13 @@
 #include "Memory.h"
 
 
+void processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
+	Console::write("[Send] ");
+	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
+	BYTE bytes[4096];
+	readDump(addrInDumpPacket, packetSize, bytes);
+	printByteToHex(bytes, packetSize);
+}
 
 
 DWORD TestJumpBack = 0;
@@ -26,14 +33,26 @@ __declspec(naked) void readPacketBeforeSendHook()
 
 	}
 
-	Console::write("[Send] ");
-	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
-	readDump(addrInDumpPacket, packetSize);
+	processSendPacket(addrInDumpPacket, packetSize);
 
 	__asm jmp[TestJumpBack]
 }
 
-DWORD recvPacketSize = 0;
+
+
+
+void processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
+	Console::setColor(8);
+	Console::write("[Recv] ");
+	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
+	BYTE bytes[4096];
+	readDump(addrInDumpPacket, packetSize, bytes);
+	printByteToHex(bytes, packetSize);
+	Console::setColor(7);
+}
+
+
+unsigned int recvPacketSize = 0;
 DWORD recvAddrDump = 0;
 DWORD jumpBackRecv = 0;
 __declspec(naked) void readPacketRecv()
@@ -50,10 +69,7 @@ __declspec(naked) void readPacketRecv()
 		lea ecx, dword ptr ds : [esi + 0x40]
 
 	}
-	
-	//Console::write("[Recv] ");
-	//Console::write("Size:%02x Addr:%02x Packet: ", recvPacketSize, recvAddrDump);
-	//readDump(recvAddrDump, recvPacketSize);
+
 	__asm {
 		PUSH ESI
 		PUSH EDI
@@ -63,11 +79,8 @@ __declspec(naked) void readPacketRecv()
 		PUSH EAX
 	}
 
-	Console::setColor(8);
-	Console::write("[Recv] ");
-	Console::write("Size:%02x Addr:%02x Packet: ", recvPacketSize, recvAddrDump);
-	readDump(recvAddrDump, recvPacketSize);
-	Console::setColor(7);
+	processRecvPacket(recvAddrDump, recvPacketSize);
+
 	__asm {
 		POP EAX
 		POP EBX

@@ -28,11 +28,10 @@ void printByteToHex(BYTE buf[], const unsigned int &packetSize) {
 	Console::writeLine("%s", strBuffer2);
 }
 
-// TODO need refactor this function
-void readDump(const DWORD &addrInDumpPacket, const unsigned int &packetSize) {
-	BYTE buf[4096];
-	ReadProcessMemory(GetCurrentProcess(), (LPVOID)addrInDumpPacket, buf, packetSize, NULL);
-	printByteToHex(buf, packetSize);
+// out BYTE buffer[]
+BYTE* readDump(const DWORD &addrInDumpPacket, const unsigned int &packetSize, BYTE buffer[]) {
+	ReadProcessMemory(GetCurrentProcess(), (LPVOID)addrInDumpPacket, buffer, packetSize, NULL);
+	return buffer;
 }
 
 LPBYTE allocateMem(LPCVOID _buffer, SIZE_T size) {
