@@ -17,6 +17,9 @@ void processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize)
 	case 0x8E00:
 		Console::write("[Chat]");
 		break;
+	case 0x8700:
+		Console::write("[Walk]");
+		break;
 	default:
 		break;
 	}

@@ -33,6 +33,12 @@ void processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize)
 	case 0xF300:
 		Console::write("[Chat]");
 		break;
+	case 0x3704:
+		Console::write("[Walk]");
+		//3704 259 0E 0
+		//259 / 4 = x pos
+		//0E + 259 % 4 = y pos
+		break;
 	default:
 		break;
 	}
