@@ -34,10 +34,25 @@ void processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize)
 		Console::write("[Chat]");
 		break;
 	case 0x3704:
+	{
 		Console::write("[Walk]");
+
+		BYTE high = bytes[3] >> 4; // Get the 4 high bits
+		uint16_t factor4PosX = (bytes[2] << 4 | high);
+		uint16_t posX = factor4PosX / 4;
+
+		BYTE lowPosY = bytes[3] & 0x0F; // Get the 4 low bits
+		BYTE highPosY = bytes[4] >> 4;
+		uint16_t posY = lowPosY << 4 | highPosY;
+		posY += (factor4PosX % 4) * 255;
+
+		Console::write(" X=%d Y=%d ", posX, posY);
+
+		// Packet example : 
 		//3704 259 0E 0
 		//259 / 4 = x pos
 		//0E + 259 % 4 = y pos
+	}
 		break;
 	default:
 		break;
