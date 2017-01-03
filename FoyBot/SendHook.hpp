@@ -33,7 +33,8 @@ void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	switch (packetHeader)
 	{
 	case 0xF300:
-		Console::write("[Chat]\n");
+		Console::write("[Chat] ");
+		printByteToChar(bytes, packetSize);
 		return;
 	case 0x3704:
 	{

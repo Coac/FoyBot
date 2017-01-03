@@ -28,6 +28,14 @@ void printByteToHex(BYTE buf[], const unsigned int &packetSize) {
 	Console::writeLine("%s", strBuffer2);
 }
 
+void printByteToChar(BYTE buf[], const unsigned int &packetSize) {
+	for (int i = 0; i < packetSize; i++)
+	{
+		Console::write("%c", buf[i]);
+	}
+	Console::writeLine("");
+}
+
 // out BYTE buffer[]
 BYTE* readDump(const DWORD &addrInDumpPacket, const unsigned int &packetSize, BYTE buffer[]) {
 	ReadProcessMemory(GetCurrentProcess(), (LPVOID)addrInDumpPacket, buffer, packetSize, NULL);
