@@ -41,9 +41,9 @@ void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	{
 		Console::write("[Walk]");
 
-		int* pos = PacketUtils::computeCoord(bytes[2], bytes[3], bytes[4]);
-		uint16_t posX = pos[0];
-		uint16_t posY = pos[1];
+		Coord* pos = PacketUtils::computeCoord(bytes[2], bytes[3], bytes[4]);
+		uint16_t posX = pos->getX();
+		uint16_t posY = pos->getY();
 
 		Console::write(" X=%d Y=%d ", posX, posY);
 

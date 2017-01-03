@@ -101,17 +101,17 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("ID=%08X", NPC_ID);
 
 		// Position
-		int* pos = PacketUtils::computeCoord(bytes[6], bytes[7], bytes[8]);
-		uint16_t posX = pos[0];
-		uint16_t posY = pos[1];
+		Coord* pos = PacketUtils::computeCoord(bytes[6], bytes[7], bytes[8]);
+		uint16_t posX = pos->getX();
+		uint16_t posY = pos->getY();
 		Console::write(" intial : X=%d Y=%d ", posX, posY);
 
 		pos = PacketUtils::computeCoord(
 			((bytes[8] & 0x0F) << 4) | (bytes[9] >> 4), 
 			((bytes[9] & 0x0F) << 4) | (bytes[10] >> 4),
 			((bytes[10] & 0x0F) << 4) | (bytes[11] >> 4));
-		posX = pos[0];
-		posY = pos[1];
+		posX = pos->getX();
+		posY = pos->getY();
 		Console::write(" dest : X=%d Y=%d ", posX, posY);
 
 		Console::write("\n");
@@ -130,9 +130,9 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("ID=%08X", ID);
 
 		// Position
-		int* pos = PacketUtils::computeCoord(bytes[59], bytes[60], bytes[61]);
-		uint16_t posX = pos[0];
-		uint16_t posY = pos[1];
+		Coord* pos = PacketUtils::computeCoord(bytes[59], bytes[60], bytes[61]);
+		uint16_t posX = pos->getX();
+		uint16_t posY = pos->getY();
 		Console::write(" X=%d Y=%d ", posX, posY);
 
 		// Name
@@ -172,9 +172,9 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("ID=%08X", NPC_ID);
 
 		// Position
-		int* pos = PacketUtils::computeCoord(bytes[55], bytes[56], bytes[57]);
-		uint16_t posX = pos[0];
-		uint16_t posY = pos[1];
+		Coord* pos = PacketUtils::computeCoord(bytes[55], bytes[56], bytes[57]);
+		uint16_t posX = pos->getX();
+		uint16_t posY = pos->getY();
 		Console::write(" X=%d Y=%d ", posX, posY);
 		
 		// Name
