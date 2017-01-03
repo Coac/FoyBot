@@ -1,14 +1,6 @@
 #include <Psapi.h>
 
 
-void MsgBoxAddy(DWORD addy)
-{
-	char szBuffer[1024];
-	sprintf(szBuffer, "Addy: %02x", addy);
-	MessageBox(NULL, szBuffer, "Title", MB_OK);
-}
-
-
 void PlaceJMP(BYTE *Address, DWORD jumpTo, DWORD length = 5)
 {
 	DWORD dwOldProtect, dwBkup, dwRelAddr;
