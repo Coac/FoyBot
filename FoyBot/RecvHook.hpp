@@ -30,7 +30,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	int packetHeader = bytes[0] << 8 | bytes[1];
 	switch (packetHeader)
 	{
-	case 0x8E00:
+	case 0x8E00: case 0x8D00:
 		Console::write("[Chat] ");
 		printByteToChar(bytes, packetSize);
 		return;
@@ -44,6 +44,27 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	case 0xF301: case 0x7F00:
 		Console::write("[HeartBeat]\n");
 		return;
+	case 0x9700:
+	{
+		Console::write("[ChatPm] ");
+		// Example
+		// 9700 2300 41414141414141000000000000000000000000000000000000000000 616100
+		//      41414141414141000000000000000000000000000000000000000000 = Name
+		//										616100 = Message
+
+		Console::write("Name=");
+		for (int i = 4; i < 32; i++)
+		{
+			Console::write("%c", bytes[i]);
+		}
+
+		Console::write(" Message=");
+		for (int i = 32; i < packetSize; i++)
+		{
+			Console::write("%c", bytes[i]);
+		}
+		return;
+	}
 	case 0x8000:
 	{
 		Console::write("[EntityDisappear] ");
