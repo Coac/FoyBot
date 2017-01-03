@@ -54,6 +54,16 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	case 0xF301: case 0x7F00:
 		Console::write("[HeartBeat]\n");
 		return;
+	case 0x9100:
+		Console::write("[ChangeMapPortal]");
+		printByteToChar(bytes, packetSize);
+		Store::entities.clear();
+		break;
+	case 0xB100:
+		Console::write("[ChangeMapTP]");
+		printByteToChar(bytes, packetSize);
+		Store::entities.clear();
+		break;
 	case 0x9700:
 	{
 		Console::write("[ChatPm] ");
@@ -128,7 +138,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	}
 	case 0x5608:
 	{
-		Console::write("[EntityAppear] ");
+		Console::write("[EntityAppear5608] ");
 		// Example 5608 4E0000 74981E00 9600000000000000000000000100B1040000000094FECB170000000000000000000000000000000000000000000000000000 27433 2743388050501000000 41414141414141
 		// ID = 74981E00
 		// Pos = 27433
@@ -175,7 +185,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	}
 	case 0x5708:
 	{
-		Console::write("[EntityAppear] ");
+		Console::write("[EntityAppear5708] ");
 		// Example
 		// 5708 570006 CF7D8E06 C8000000000000000000740000000000000000000000000000000000000000000000000000000000000000000000 290 7D 400000000000000 4B6166726120566F74696E6720537461666623707274
 		//          CF7D8E06 = NPC_ID                                                                                        290/4 = x                Name
