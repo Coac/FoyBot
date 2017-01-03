@@ -109,6 +109,48 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("\n");
 		return;
 	}
+	case 0x5608:
+	{
+		Console::write("[EntityAppear] ");
+		// Example 5608 4E0000 74981E00 9600000000000000000000000100B1040000000094FECB170000000000000000000000000000000000000000000000000000 27433 2743388050501000000 41414141414141
+		// ID = 74981E00
+		// Pos = 27433
+		// Name = 41414141414141
+
+		// ID
+		int ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
+		Console::write("ID=%08X", ID);
+
+		// Position
+		int* pos = PacketUtils::computeCoord(bytes[59], bytes[60], bytes[61]);
+		uint16_t posX = pos[0];
+		uint16_t posY = pos[1];
+		Console::write(" X=%d Y=%d ", posX, posY);
+
+		// Name
+		Console::write("Name=");
+		for (int i = 71; i < packetSize; i++)
+		{
+			Console::write("%c", bytes[i]);
+		}
+
+		Console::write("\n");
+
+		// Print packet, non used bytes
+		for (int i = 0; i < packetSize; i++)
+		{
+			if (i < 2 || i >= 59 && i <= 61 || i >= 5 && i <= 8 || i>=71) {
+				Console::setColor(8);
+			}
+			else {
+				Console::setColor(7);
+			}
+			Console::write("%02X", bytes[i]);
+		}
+		Console::write("\n");
+
+		return;
+	}
 	case 0x5708:
 	{
 		Console::write("[EntityAppear] ");
