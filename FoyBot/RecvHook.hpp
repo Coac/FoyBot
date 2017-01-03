@@ -63,6 +63,8 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		{
 			Console::write("%c", bytes[i]);
 		}
+
+		Console::write("\n");
 		return;
 	}
 	case 0x8000:
@@ -74,8 +76,10 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 
 		int NPC_ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
 		Console::write("ID=%08X", NPC_ID);
+
+		Console::write("\n");
+		return;
 	}
-	break;
 	case 0x8600:
 	{
 		Console::write("[EntityMove] ");
@@ -101,8 +105,10 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		posX = pos[0];
 		posY = pos[1];
 		Console::write(" dest : X=%d Y=%d ", posX, posY);
+
+		Console::write("\n");
+		return;
 	}
-	break;
 	case 0x5708:
 	{
 		Console::write("[EntityAppear] ");
@@ -128,8 +134,9 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 			Console::write("%c", bytes[i]);
 		}
 
+		Console::write("\n");
+		return;
 	}
-		break;
 	default:
 		break;
 	}
