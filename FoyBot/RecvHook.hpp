@@ -44,12 +44,49 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("[Announce] ");
 		printByteToChar(bytes, packetSize);
 		return;
+	case 0x9A00:
+		Console::write("[Announce] ");
+		printByteToChar(bytes, packetSize);
+		return;
 	case 0xF301:
 		Console::write("[HeartBeat]\n");
 		return;
 	case 0x7F00:
 		Console::write("[HeartBeat]\n");
 		return;
+	case 0x5708:
+	{
+		Console::write("[NPCAppear] ");
+		// Example
+		// 5708 570006 CF7D8E06 C8000000000000000000740000000000000000000000000000000000000000000000000000000000000000000000 290 7D 400000000000000 4B6166726120566F74696E6720537461666623707274
+		//          CF7D8E06 = NPC_ID                                                                                        290/4 = x                Name
+		//																													7D = y
+
+		// NPC_ID
+		int NPC_ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
+		Console::write("ID=%08X", NPC_ID);
+
+		// Position
+		BYTE high = bytes[56] >> 4; // Get the 4 high bits
+		uint16_t factor4PosX = (bytes[55] << 4 | high);
+		uint16_t posX = factor4PosX / 4;
+
+		BYTE lowPosY = bytes[56] & 0x0F; // Get the 4 low bits
+		BYTE highPosY = bytes[57] >> 4;
+		uint16_t posY = lowPosY << 4 | highPosY;
+		posY += (factor4PosX % 4) * 255;
+
+		Console::write(" X=%d Y=%d ", posX, posY);
+		x
+		// Name
+		Console::write("Name=");
+		for (int i = 65; i < packetSize; i++)
+		{
+			Console::write("%c", bytes[i]);
+		}
+
+	}
+		break;
 	default:
 		break;
 	}
