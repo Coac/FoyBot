@@ -53,6 +53,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAsManaged>false</CompileAsManaged>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -88,6 +89,8 @@
     <ClInclude Include="PacketUtils.hpp" />
     <ClInclude Include="RecvHook.hpp" />
     <ClInclude Include="SendHook.hpp" />
+    <ClInclude Include="Store\Coord.hpp" />
+    <ClInclude Include="Store\Entity.hpp" />
     <ClInclude Include="StringUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
