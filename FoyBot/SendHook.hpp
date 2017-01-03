@@ -2,6 +2,7 @@
 
 #include "Functions.h"
 #include "Memory.h"
+#include "PacketUtils.hpp"
 
 
 class SendHook
@@ -40,14 +41,9 @@ void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	{
 		Console::write("[Walk]");
 
-		BYTE high = bytes[3] >> 4; // Get the 4 high bits
-		uint16_t factor4PosX = (bytes[2] << 4 | high);
-		uint16_t posX = factor4PosX / 4;
-
-		BYTE lowPosY = bytes[3] & 0x0F; // Get the 4 low bits
-		BYTE highPosY = bytes[4] >> 4;
-		uint16_t posY = lowPosY << 4 | highPosY;
-		posY += (factor4PosX % 4) * 255;
+		int* pos = PacketUtils::computeCoord(bytes[2], bytes[3], bytes[4]);
+		uint16_t posX = pos[0];
+		uint16_t posY = pos[1];
 
 		Console::write(" X=%d Y=%d ", posX, posY);
 

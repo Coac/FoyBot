@@ -2,6 +2,7 @@
 
 #include "Functions.h"
 #include "Memory.h"
+#include "PacketUtils.hpp"
 
 class RecvHook
 {
@@ -78,15 +79,9 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("ID=%08X", NPC_ID);
 
 		// Position
-		BYTE high = bytes[56] >> 4; // Get the 4 high bits
-		uint16_t factor4PosX = (bytes[55] << 4 | high);
-		uint16_t posX = factor4PosX / 4;
-
-		BYTE lowPosY = bytes[56] & 0x0F; // Get the 4 low bits
-		BYTE highPosY = bytes[57] >> 4;
-		uint16_t posY = lowPosY << 4 | highPosY;
-		posY += (factor4PosX % 4) * 255;
-
+		int* pos = PacketUtils::computeCoord(bytes[55], bytes[56], bytes[57]);
+		uint16_t posX = pos[0];
+		uint16_t posY = pos[1];
 		Console::write(" X=%d Y=%d ", posX, posY);
 		
 		// Name

@@ -1,0 +1,28 @@
+#pragma once
+
+#include <Windows.h>
+#include <iostream> 
+
+class PacketUtils
+{
+private:
+
+public:
+	static int* computeCoord(BYTE byte1, BYTE byte2, BYTE byte3);
+};
+
+int* PacketUtils::computeCoord(BYTE byte1, BYTE byte2, BYTE byte3) {
+	BYTE high = byte2 >> 4; // Get the 4 high bits
+	uint16_t factor4PosX = (byte1 << 4 | high);
+	uint16_t posX = factor4PosX / 4;
+
+	BYTE lowPosY = byte2 & 0x0F; // Get the 4 low bits
+	BYTE highPosY = byte3 >> 4;
+	uint16_t posY = lowPosY << 4 | highPosY;
+	posY += (factor4PosX % 4) * 255;
+
+	int pos[2];
+	pos[0] = posX;
+	pos[1] = posY;
+	return pos;
+}
