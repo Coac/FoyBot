@@ -14,6 +14,7 @@ public:
 	void setY(unsigned int y1);
 	void operator=(const Coord& c);
 	bool operator==(const Coord& a) const;
+	string toString();
 
 };
 
@@ -58,4 +59,11 @@ void Coord::operator=(const Coord& c)
 bool Coord::operator==(const Coord& a) const
 {
 	return (getX() == a.getX() && getY() == a.getY());
+}
+
+string Coord::toString()
+{
+	char buff[256];
+	snprintf(buff, sizeof(buff), "X=%d Y=%d", this->x, this->y);
+	return buff;
 }

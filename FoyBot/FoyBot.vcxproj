@@ -91,6 +91,7 @@
     <ClInclude Include="SendHook.hpp" />
     <ClInclude Include="Store\Coord.hpp" />
     <ClInclude Include="Store\Entity.hpp" />
+    <ClInclude Include="Store\Store.hpp" />
     <ClInclude Include="StringUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

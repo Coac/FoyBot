@@ -3,6 +3,8 @@
 #include "Functions.h"
 #include "Memory.h"
 #include "PacketUtils.hpp"
+#include "Store/Store.hpp"
+#include "Store/Entity.hpp"
 
 class RecvHook
 {
@@ -126,7 +128,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		// Name = 41414141414141
 
 		// ID
-		int ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
+		unsigned int ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
 		Console::write("ID=%08X", ID);
 
 		// Position
@@ -140,6 +142,16 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		for (int i = 71; i < packetSize; i++)
 		{
 			Console::write("%c", bytes[i]);
+		}
+
+		Store::entities[ID] = new Entity(ID, "namekeklel", pos);
+		for (auto const& entity : Store::entities)
+		{
+			std::cout << std::endl
+				<< entity.first  // (key)
+				<< ':'
+				<< entity.second->toString() // value 
+				<< std::endl;
 		}
 
 		Console::write("\n");
