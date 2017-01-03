@@ -3,8 +3,8 @@
 class Coord
 {
 private:
-	int x;
-	int y;
+	unsigned int x;
+	unsigned int y;
 public:
 	Coord(unsigned int const x1, unsigned int const y1);
 	unsigned int getX() const;

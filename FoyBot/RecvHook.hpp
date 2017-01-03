@@ -60,7 +60,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Store::entities.clear();
 		break;
 	case 0xB100:
-		Console::write("[ChangeMapTP]");
+		Console::write("[ChangeMapTP]"); 
 		printByteToChar(bytes, packetSize);
 		Store::entities.clear();
 		break;
@@ -202,7 +202,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write(" X=%d Y=%d ", posX, posY);
 		
 		// Name
-		char name[128];
+		char name[1024];
 		int length = 0;
 		for (int i = 65; i < packetSize; i++)
 		{
