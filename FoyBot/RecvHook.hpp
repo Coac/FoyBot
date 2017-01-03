@@ -54,6 +54,17 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	case 0x7F00:
 		Console::write("[HeartBeat]\n");
 		return;
+	case 0x8000:
+	{
+		Console::write("[NPCDisappear] ");
+		// Example
+		// 8000 ED7D8E06 00
+		//      ED7D8E06 = NPC_ID																								7D = y
+
+		int NPC_ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
+		Console::write("ID=%08X", NPC_ID);
+	}
+	break;
 	case 0x5708:
 	{
 		Console::write("[NPCAppear] ");
@@ -77,7 +88,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		posY += (factor4PosX % 4) * 255;
 
 		Console::write(" X=%d Y=%d ", posX, posY);
-		x
+		
 		// Name
 		Console::write("Name=");
 		for (int i = 65; i < packetSize; i++)
