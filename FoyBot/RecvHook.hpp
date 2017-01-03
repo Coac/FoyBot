@@ -118,8 +118,10 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		posY = pos->getY();
 		Console::write(" dest : X=%d Y=%d ", posX, posY);
 
-		Store::entities[NPC_ID]->setPos(pos);
-		Store::printEntities();
+		if (Store::entities[NPC_ID]) {
+			Store::entities[NPC_ID]->setPos(pos);
+			Store::printEntities();
+		}
 
 		Console::write("\n");
 		return;
