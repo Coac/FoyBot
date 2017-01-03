@@ -84,8 +84,10 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		// 8000 ED7D8E06 00
 		//      ED7D8E06 = NPC_ID
 
-		int NPC_ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
+		unsigned int NPC_ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
 		Console::write("ID=%08X", NPC_ID);
+
+		Store::entities.erase(NPC_ID);
 
 		Console::write("\n");
 		return;
@@ -99,7 +101,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		//               288A5 = initialPos
 		//                     288A2 = destPos
 
-		int NPC_ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
+		unsigned int NPC_ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
 		Console::write("ID=%08X", NPC_ID);
 
 		// Position
@@ -115,6 +117,9 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		posX = pos->getX();
 		posY = pos->getY();
 		Console::write(" dest : X=%d Y=%d ", posX, posY);
+
+		Store::entities[NPC_ID]->setPos(pos);
+		Store::printEntities();
 
 		Console::write("\n");
 		return;
@@ -138,21 +143,16 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write(" X=%d Y=%d ", posX, posY);
 
 		// Name
-		Console::write("Name=");
+		char name[128];
+		int length = 0;
 		for (int i = 71; i < packetSize; i++)
 		{
-			Console::write("%c", bytes[i]);
+			length += sprintf(name + length, "%c", bytes[i]);
 		}
+		Console::write("Name=%s", name);
 
-		Store::entities[ID] = new Entity(ID, "namekeklel", pos);
-		for (auto const& entity : Store::entities)
-		{
-			std::cout << std::endl
-				<< entity.first  // (key)
-				<< ':'
-				<< entity.second->toString() // value 
-				<< std::endl;
-		}
+		Store::entities[ID] = new Entity(ID, name, pos);
+		Store::printEntities();
 
 		Console::write("\n");
 
@@ -180,7 +180,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		//																													7D = y
 
 		// NPC_ID
-		int NPC_ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
+		unsigned int NPC_ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
 		Console::write("ID=%08X", NPC_ID);
 
 		// Position
@@ -190,11 +190,16 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write(" X=%d Y=%d ", posX, posY);
 		
 		// Name
-		Console::write("Name=");
+		char name[128];
+		int length = 0;
 		for (int i = 65; i < packetSize; i++)
 		{
-			Console::write("%c", bytes[i]);
+			length += sprintf(name + length, "%c", bytes[i]);
 		}
+		Console::write("Name=%s", name);
+
+		Store::entities[NPC_ID] = new Entity(NPC_ID, name, pos);
+		Store::printEntities();
 
 		Console::write("\n");
 		return;
