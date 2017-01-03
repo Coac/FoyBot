@@ -55,6 +55,17 @@ void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("\n");
 		return;
 	}
+	case 0x6A09:
+	{
+		Console::write("[Hover] ");
+		// Example
+		// 9A09 ED7D8E06 00
+		//      ED7D8E06 = ID
+
+		int ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
+		Console::write("ID=%08X \n", ID);
+		return;
+	}
 	case 0x5F03:
 		Console::write("[HeartBeat]\n");
 		return;
