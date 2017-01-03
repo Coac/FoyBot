@@ -37,22 +37,11 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	case 0x8700:
 		Console::write("[Walk]\n");
 		return;
-	case 0xC301:
+	case 0x9500: case 0x9A00: case 0xC301:
 		Console::write("[Announce] ");
 		printByteToChar(bytes, packetSize);
 		return;
-	case 0x9500:
-		Console::write("[Announce] ");
-		printByteToChar(bytes, packetSize);
-		return;
-	case 0x9A00:
-		Console::write("[Announce] ");
-		printByteToChar(bytes, packetSize);
-		return;
-	case 0xF301:
-		Console::write("[HeartBeat]\n");
-		return;
-	case 0x7F00:
+	case 0xF301: case 0x7F00:
 		Console::write("[HeartBeat]\n");
 		return;
 	case 0x8000:
