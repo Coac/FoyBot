@@ -4,6 +4,7 @@
 #include "Console.hpp"
 #include "Hooks.h"
 #include "SendHook.hpp"
+#include "RecvHook.hpp"
 #include"StringUtils.h"
 
 void InitiateHooks()
@@ -12,14 +13,14 @@ void InitiateHooks()
 	sendFunctionAddr = addrSendFunc;
 	Console::writeLine("sendFunctionAddr : %02X", sendFunctionAddr);
 	PlaceJMP((BYTE*)addrSendFunc, (DWORD)SendHook::readPacketBeforeSendHook);
-	SendHook::TestJumpBack = addrSendFunc + 0x6;
+	SendHook::jumpBackSend = addrSendFunc + 0x6;
 
 
 	DWORD addrRecvFunc = FindPattern("_FoY.exe", "\x3B\xC3\x7E\x22\x8D", "xxxxx");
 	addrRecvFunc += 10;
 	Console::writeLine("addrRecvFunc : %02X", addrRecvFunc);
-	PlaceJMP((BYTE*)addrRecvFunc, (DWORD)readPacketRecv);
-	jumpBackRecv = addrRecvFunc + 0x5;
+	PlaceJMP((BYTE*)addrRecvFunc, (DWORD)RecvHook::readPacketRecv);
+	RecvHook::jumpBackRecv = addrRecvFunc + 0x5;
 
 }
 

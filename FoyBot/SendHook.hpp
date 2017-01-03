@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Hooks.h" // To remove and incorporate code here
+#include "Functions.h"
+#include "Memory.h"
 
 
 class SendHook
@@ -9,20 +10,20 @@ private:
 
 public:
 	static void readPacketBeforeSendHook();
+	static void processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize);
 
-	static DWORD TestJumpBack;
+	static DWORD jumpBackSend;
 	static DWORD stackElementNotUsed;
 	static unsigned int packetSize;
 	static DWORD addrInDumpPacket;
 };
 
-DWORD SendHook::TestJumpBack = 0;
+DWORD SendHook::jumpBackSend = 0;
 DWORD SendHook::stackElementNotUsed = 0;
 unsigned int SendHook::packetSize = 0;
 DWORD SendHook::addrInDumpPacket = 0;
 
-// TODO : to move
-void processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
+void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
 	Console::write("[Send]");
 	BYTE bytes[4096];
 	readDump(addrInDumpPacket, packetSize, bytes);
@@ -84,5 +85,5 @@ __declspec(naked) void SendHook::readPacketBeforeSendHook()
 
 	processSendPacket(addrInDumpPacket, packetSize);
 
-	__asm jmp[TestJumpBack]
+	__asm jmp[jumpBackSend]
 }
