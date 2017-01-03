@@ -7,6 +7,9 @@ This program is a packet sniffer.
 - Launch the game  
 - Run FoyBotInjector.exe  
 
+## Debug
+To see the error message when a crash occur, you can use the VisualStudio debugger, very **very** useful   
+In VS, ``Debug`` -> ``Attach To Process`` -> Select the process with the injected dll -> ``Attach``
 
 ## Features
 - Colorful logging in console
