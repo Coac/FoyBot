@@ -24,6 +24,7 @@ unsigned int SendHook::packetSize = 0;
 DWORD SendHook::addrInDumpPacket = 0;
 
 void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
+	Console::setColor(7);
 	Console::write("[Send]");
 	BYTE bytes[4096];
 	readDump(addrInDumpPacket, packetSize, bytes);
@@ -32,8 +33,8 @@ void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	switch (packetHeader)
 	{
 	case 0xF300:
-		Console::write("[Chat]");
-		break;
+		Console::write("[Chat]\n");
+		return;
 	case 0x3704:
 	{
 		Console::write("[Walk]");
@@ -53,8 +54,13 @@ void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		//3704 259 0E 0
 		//259 / 4 = x pos
 		//0E + 259 % 4 = y pos
+
+		Console::write("\n");
+		return;
 	}
-		break;
+	case 0x5F03:
+		Console::write("[HeartBeat]\n");
+		return;
 	default:
 		break;
 	}

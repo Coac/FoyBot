@@ -30,11 +30,20 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	switch (packetHeader)
 	{
 	case 0x8E00:
-		Console::write("[Chat]");
-		break;
+		Console::write("[Chat]\n");
+		return;
 	case 0x8700:
-		Console::write("[Walk]");
-		break;
+		Console::write("[Walk]\n");
+		return;
+	case 0xC301:
+		Console::write("[Announce]\n");
+		return;
+	case 0xF301:
+		Console::write("[HeartBeat]\n");
+		return;
+	case 0x7F00:
+		Console::write("[HeartBeat]\n");
+		return;
 	default:
 		break;
 	}
@@ -42,7 +51,6 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 
 	Console::write("Size:%02x Addr:%02x Packet: ", packetSize, addrInDumpPacket);
 	printByteToHex(bytes, packetSize);
-	Console::setColor(7);
 }
 
 __declspec(naked) void RecvHook::readPacketRecv()
