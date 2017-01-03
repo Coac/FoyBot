@@ -46,18 +46,45 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		return;
 	case 0x8000:
 	{
-		Console::write("[NPCDisappear] ");
+		Console::write("[EntityDisappear] ");
 		// Example
 		// 8000 ED7D8E06 00
-		//      ED7D8E06 = NPC_ID																								7D = y
+		//      ED7D8E06 = NPC_ID
 
 		int NPC_ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
 		Console::write("ID=%08X", NPC_ID);
 	}
 	break;
+	case 0x8600:
+	{
+		Console::write("[EntityMove] ");
+		// Example
+		// 8600 74981E00 288A5 288A2 888F443017
+		//      74981E00 = NPC_ID
+		//               288A5 = initialPos
+		//                     288A2 = destPos
+
+		int NPC_ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
+		Console::write("ID=%08X", NPC_ID);
+
+		// Position
+		int* pos = PacketUtils::computeCoord(bytes[6], bytes[7], bytes[8]);
+		uint16_t posX = pos[0];
+		uint16_t posY = pos[1];
+		Console::write(" intial : X=%d Y=%d ", posX, posY);
+
+		pos = PacketUtils::computeCoord(
+			((bytes[8] & 0x0F) << 4) | (bytes[9] >> 4), 
+			((bytes[9] & 0x0F) << 4) | (bytes[10] >> 4),
+			((bytes[10] & 0x0F) << 4) | (bytes[11] >> 4));
+		posX = pos[0];
+		posY = pos[1];
+		Console::write(" dest : X=%d Y=%d ", posX, posY);
+	}
+	break;
 	case 0x5708:
 	{
-		Console::write("[NPCAppear] ");
+		Console::write("[EntityAppear] ");
 		// Example
 		// 5708 570006 CF7D8E06 C8000000000000000000740000000000000000000000000000000000000000000000000000000000000000000000 290 7D 400000000000000 4B6166726120566F74696E6720537461666623707274
 		//          CF7D8E06 = NPC_ID                                                                                        290/4 = x                Name
