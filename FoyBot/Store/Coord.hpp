@@ -14,54 +14,54 @@ public:
 	void setY(unsigned int y1);
 	void operator=(const Coord& c);
 	bool operator==(const Coord& a) const;
-	string toString();
+	string toString() const;
 
 };
 
-Coord::Coord(unsigned int x1, unsigned int y1)
+inline Coord::Coord(unsigned int x1, unsigned int y1)
 {
 	this->x = x1;
 	this->y = y1;
 }
 
-void Coord::set(unsigned int x1, unsigned int y1)
+inline void Coord::set(unsigned int x1, unsigned int y1)
 {
 	this->x = x1;
 	this->y = y1;
 }
 
-void Coord::setX(unsigned int x1)
+inline void Coord::setX(unsigned int x1)
 {
 	this->x = x1;
 }
 
-void Coord::setY(unsigned int y1)
+inline void Coord::setY(unsigned int y1)
 {
 	this->y = y1;
 }
 
-unsigned int Coord::getX() const
+inline unsigned int Coord::getX() const
 {
 	return x;
 }
 
-unsigned int Coord::getY() const
+inline unsigned int Coord::getY() const
 {
 	return y;
 }
 
-void Coord::operator=(const Coord& c)
+inline void Coord::operator=(const Coord& c)
 {
 	x = c.getX();
 	y = c.getY();
 }
 
-bool Coord::operator==(const Coord& a) const
+inline bool Coord::operator==(const Coord& a) const
 {
 	return (getX() == a.getX() && getY() == a.getY());
 }
 
-string Coord::toString()
+inline string Coord::toString() const
 {
 	char buff[256];
 	snprintf(buff, sizeof(buff), "X=%d Y=%d", this->x, this->y);

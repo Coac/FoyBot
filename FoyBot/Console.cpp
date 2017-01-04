@@ -22,21 +22,21 @@ void Console::create() {
 
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleInfo);
 
-	stdioHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
+	stdioHandle = long(GetStdHandle(STD_INPUT_HANDLE));
 	consoleHandleR = _open_osfhandle(stdioHandle, _O_TEXT);
 	fptr = _fdopen(consoleHandleR, "r");
 	*stdin = *fptr;
-	setvbuf(stdin, NULL, _IONBF, 0);
+	setvbuf(stdin, nullptr, _IONBF, 0);
 
-	stdioHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+	stdioHandle = long(GetStdHandle(STD_OUTPUT_HANDLE));
 	consoleHandleW = _open_osfhandle(stdioHandle, _O_TEXT);
 	fptr = _fdopen(consoleHandleW, "w");
 	*stdout = *fptr;
-	setvbuf(stdout, NULL, _IONBF, 0);
+	setvbuf(stdout, nullptr, _IONBF, 0);
 
-	stdioHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+	stdioHandle = long(GetStdHandle(STD_ERROR_HANDLE));
 	*stderr = *fptr;
-	setvbuf(stderr, NULL, _IONBF, 0);
+	setvbuf(stderr, nullptr, _IONBF, 0);
 
 	freopen("conin$", "r+t", stdin);
 	freopen("conout$", "w+t", stdout);
@@ -67,7 +67,7 @@ void Console::write(const char* fmt, ...) {
 		return;
 
 	char buffer[4096];
-	vsprintf(buffer, fmt, (char*)((&fmt) + 1));
+	vsprintf(buffer, fmt, reinterpret_cast<char*>((&fmt) + 1));
 
 	std::cout << buffer;
 
@@ -77,7 +77,7 @@ void Console::writeLine(const char* fmt, ...) {
 		return;
 
 	char buffer[4096];
-	vsprintf(buffer, fmt, (char*)((&fmt) + 1));
+	vsprintf(buffer, fmt, reinterpret_cast<char*>((&fmt) + 1));
 
 	std::cout << buffer << std::endl;
 }

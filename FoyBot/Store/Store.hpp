@@ -15,7 +15,7 @@ public:
 
 map<unsigned int, Entity*> Store::entities;
 
-void Store::printEntities() {
+inline void Store::printEntities() {
 	cout << endl  << "Entities : " << endl;
 	for (auto const& entity : Store::entities)
 	{

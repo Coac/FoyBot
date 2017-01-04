@@ -24,13 +24,13 @@ DWORD SendHook::stackElementNotUsed = 0;
 unsigned int SendHook::packetSize = 0;
 DWORD SendHook::addrInDumpPacket = 0;
 
-void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
+inline void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
 	Console::setColor(7);
 	Console::write("[Send]");
 	BYTE bytes[4096];
 	readDump(addrInDumpPacket, packetSize, bytes);
 
-	int packetHeader = bytes[0] << 8 | bytes[1];
+	auto packetHeader = bytes[0] << 8 | bytes[1];
 	switch (packetHeader)
 	{
 	case 0xF300:
@@ -41,7 +41,7 @@ void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	{
 		Console::write("[Walk]");
 
-		Coord* pos = PacketUtils::computeCoord(bytes[2], bytes[3], bytes[4]);
+		auto pos = PacketUtils::computeCoord(bytes[2], bytes[3], bytes[4]);
 		uint16_t posX = pos->getX();
 		uint16_t posY = pos->getY();
 
@@ -62,7 +62,7 @@ void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		// 9A09 ED7D8E06 00
 		//      ED7D8E06 = ID
 
-		int ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
+		auto ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
 		Console::write("ID=%08X \n", ID);
 		return;
 	}
@@ -79,7 +79,7 @@ void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 }
 
 
-__declspec(naked) void SendHook::readPacketBeforeSendHook()
+inline __declspec(naked) void SendHook::readPacketBeforeSendHook()
 {
 	__asm {
 

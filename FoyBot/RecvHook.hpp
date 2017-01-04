@@ -23,13 +23,13 @@ DWORD RecvHook::recvAddrDump = 0;
 DWORD RecvHook::jumpBackRecv = 0;
 unsigned int RecvHook::recvPacketSize = 0;
 
-void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
+inline void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize) {
 	Console::setColor(8);
 	Console::write("[Recv]");
 	BYTE bytes[4096];
 	readDump(addrInDumpPacket, packetSize, bytes);
 
-	int packetHeader = bytes[0] << 8 | bytes[1];
+	auto packetHeader = bytes[0] << 8 | bytes[1];
 	switch (packetHeader)
 	{
 	case 0x8E00: case 0x8D00:
@@ -73,13 +73,13 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		//										616100 = Message
 
 		Console::write("Name=");
-		for (int i = 4; i < 32; i++)
+		for (auto i = 4; i < 32; i++)
 		{
 			Console::write("%c", bytes[i]);
 		}
 
 		Console::write(" Message=");
-		for (int i = 32; i < packetSize; i++)
+		for (auto i = 32; i < packetSize; i++)
 		{
 			Console::write("%c", bytes[i]);
 		}
@@ -115,7 +115,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("ID=%08X", NPC_ID);
 
 		// Position
-		Coord* pos = PacketUtils::computeCoord(bytes[6], bytes[7], bytes[8]);
+		auto pos = PacketUtils::computeCoord(bytes[6], bytes[7], bytes[8]);
 		uint16_t posX = pos->getX();
 		uint16_t posY = pos->getY();
 		Console::write(" intial : X=%d Y=%d ", posX, posY);
@@ -154,15 +154,15 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("ID=%08X", ID);
 
 		// Position
-		Coord* pos = PacketUtils::computeCoord(bytes[59], bytes[60], bytes[61]);
+		auto pos = PacketUtils::computeCoord(bytes[59], bytes[60], bytes[61]);
 		uint16_t posX = pos->getX();
 		uint16_t posY = pos->getY();
 		Console::write(" X=%d Y=%d ", posX, posY);
 
 		// Name
 		char name[128];
-		int length = 0;
-		for (int i = 71; i < packetSize; i++)
+		auto length = 0;
+		for (auto i = 71; i < packetSize; i++)
 		{
 			length += sprintf(name + length, "%c", bytes[i]);
 		}
@@ -174,7 +174,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("\n");
 
 		// Print packet, non used bytes
-		for (int i = 0; i < packetSize; i++)
+		for (auto i = 0; i < packetSize; i++)
 		{
 			if (i < 2 || i >= 59 && i <= 61 || i >= 5 && i <= 8 || i>=71) {
 				Console::setColor(8);
@@ -205,15 +205,15 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Console::write("ID=%08X", NPC_ID);
 
 		// Position
-		Coord* pos = PacketUtils::computeCoord(bytes[55], bytes[56], bytes[57]);
+		auto pos = PacketUtils::computeCoord(bytes[55], bytes[56], bytes[57]);
 		uint16_t posX = pos->getX();
 		uint16_t posY = pos->getY();
 		Console::write(" X=%d Y=%d ", posX, posY);
 		
 		// Name
 		char name[1024];
-		int length = 0;
-		for (int i = 65; i < packetSize; i++)
+		auto length = 0;
+		for (auto i = 65; i < packetSize; i++)
 		{
 			length += sprintf(name + length, "%c", bytes[i]);
 		}
@@ -235,7 +235,7 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	printByteToHex(bytes, packetSize);
 }
 
-__declspec(naked) void RecvHook::readPacketRecv()
+inline __declspec(naked) void RecvHook::readPacketRecv()
 {
 
 

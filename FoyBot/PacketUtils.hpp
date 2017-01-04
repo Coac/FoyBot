@@ -12,7 +12,7 @@ public:
 	static Coord* computeCoord(BYTE byte1, BYTE byte2, BYTE byte3);
 };
 
-Coord* PacketUtils::computeCoord(BYTE byte1, BYTE byte2, BYTE byte3) {
+inline Coord* PacketUtils::computeCoord(BYTE byte1, BYTE byte2, BYTE byte3) {
 	BYTE high = byte2 >> 4; // Get the 4 high bits
 	uint16_t factor4PosX = (byte1 << 4 | high);
 	uint16_t posX = factor4PosX / 4;

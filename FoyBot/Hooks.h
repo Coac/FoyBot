@@ -4,12 +4,12 @@
 #include "Memory.h"
 
 DWORD sendFunctionAddr = 0;
-LPBYTE ptrToDetermine = 0;
+LPBYTE ptrToDetermine = nullptr;
 
-void Send_To_Server(LPBYTE Buffer, unsigned int packetSize)
+inline void Send_To_Server(LPBYTE Buffer, unsigned int packetSize)
 {
 	Sleep(150);
-	ptrToDetermine = (LPBYTE)0xC74900; // la valeur de ECX au moment du send
+	ptrToDetermine = LPBYTE(0xC74900); // la valeur de ECX au moment du send
 
 	__asm
 	{

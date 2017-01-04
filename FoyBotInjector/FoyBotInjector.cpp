@@ -21,14 +21,14 @@ bool InjectDynamicLibrary(DWORD processId, char* dllPath)
 		// expect it to be same in the remote process too.
 		LPVOID LoadLibAddr = (LPVOID)GetProcAddress(GetModuleHandleA("kernel32.dll"), "LoadLibraryA");
 		// We must allocate more memory in the target process to hold the path for our dll in it's addresspace.
-		LPVOID LoadPath = VirtualAllocEx(hTargetProcess, NULL, strlen(dllPath),
+		LPVOID LoadPath = VirtualAllocEx(hTargetProcess, nullptr, strlen(dllPath),
 			MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
-		WriteProcessMemory(hTargetProcess, LoadPath, dllPath, strlen(dllPath), NULL);
+		WriteProcessMemory(hTargetProcess, LoadPath, dllPath, strlen(dllPath), nullptr);
 
 		// Create a thread in the target process that will call LoadLibraryA() with the dllpath as a parameter
-		HANDLE RemoteThread = CreateRemoteThread(hTargetProcess, 0, 0,
-			(LPTHREAD_START_ROUTINE)LoadLibAddr, LoadPath, 0, 0);
+		HANDLE RemoteThread = CreateRemoteThread(hTargetProcess, nullptr, 0,
+			(LPTHREAD_START_ROUTINE)LoadLibAddr, LoadPath, 0, nullptr);
 		// Wait for the operation to complete, then continue.
 		WaitForSingleObject(RemoteThread, INFINITE);
 

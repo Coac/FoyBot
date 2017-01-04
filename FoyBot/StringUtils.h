@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void split(const string &s, char delim, vector<string> &elems) {
+inline void split(const string &s, char delim, vector<string> &elems) {
 	stringstream ss(s);
 	string item;
 	while (getline(ss, item, delim)) {
@@ -21,7 +21,7 @@ vector<string> split(const string &s, char delim) {
 }
 
 
-int char2int(char input)
+inline int char2int(char input)
 {
 	if (input >= '0' && input <= '9')
 		return input - '0';
@@ -33,9 +33,9 @@ int char2int(char input)
 }
 
 
-int hex2bin(const char* src, char* target)
+inline int hex2bin(const char* src, char* target)
 {
-	int size = 0;
+	auto size = 0;
 	while (*src && src[1])
 	{
 		++size;
