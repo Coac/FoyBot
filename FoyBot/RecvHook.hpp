@@ -139,10 +139,15 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 	case 0x5608:
 	{
 		Console::write("[EntityAppear5608] ");
-		// Example 5608 4E0000 74981E00 9600000000000000000000000100B1040000000094FECB170000000000000000000000000000000000000000000000000000 27433 2743388050501000000 41414141414141
+		// Example 5608 4E 0000 74981E00 9600000000000000000000000100B1040000000094FECB170000000000000000000000000000000000000000000000000000 27433 2743388050501000000 41414141414141
+		// 4E = packetLen
 		// ID = 74981E00
 		// Pos = 27433
 		// Name = 41414141414141
+
+		// PacketLen
+		unsigned int packetLen = bytes[2];
+		Console::write("PacketLen=%d ", packetLen);
 
 		// ID
 		unsigned int ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
@@ -181,15 +186,19 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		}
 		Console::write("\n");
 
-		return;
 	}
+	break;
 	case 0x5708:
 	{
 		Console::write("[EntityAppear5708] ");
 		// Example
-		// 5708 570006 CF7D8E06 C8000000000000000000740000000000000000000000000000000000000000000000000000000000000000000000 290 7D 400000000000000 4B6166726120566F74696E6720537461666623707274
-		//          CF7D8E06 = NPC_ID                                                                                        290/4 = x                Name
-		//																													7D = y
+		// 5708 57 0006 CF7D8E06 C8000000000000000000740000000000000000000000000000000000000000000000000000000000000000000000 290 7D 400000000000000 4B6166726120566F74696E6720537461666623707274
+		//  57=packetLen   CF7D8E06 = NPC_ID                                                                                  290/4 = x                Name
+		//																													      7D = y
+
+		// PacketLen
+		unsigned int packetLen = bytes[2];
+		Console::write("PacketLen=%d ", packetLen);
 
 		// NPC_ID
 		unsigned int NPC_ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
@@ -214,8 +223,9 @@ void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned int  &p
 		Store::printEntities();
 
 		Console::write("\n");
-		return;
+		//return;
 	}
+	break;
 	default:
 		break;
 	}
