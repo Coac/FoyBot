@@ -45,6 +45,8 @@ void processCmd(string &input) {
 			//BYTE data[] = { 0x39, 0x04, 0x02, 0x00, 0xE9, 0x92, 0x1E, 0x00 }; 
 
 			SendHook::sendPacket(LPBYTE(buffer), size);
+		} else if (cmd == "walk" && elems.size() == 3) {
+			Actions::walkXY(stoi(elems.at(1)), stoi(elems.at(2)));
 		}
 	}
 
