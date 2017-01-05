@@ -5,6 +5,7 @@
 #include "SendHook.hpp"
 #include "RecvHook.hpp"
 #include"StringUtils.h"
+#include "Actions.hpp"
 
 void InitiateHooks()
 {
@@ -14,13 +15,11 @@ void InitiateHooks()
 	PlaceJMP(reinterpret_cast<BYTE*>(addrSendFunc), DWORD(SendHook::readPacketBeforeSendHook));
 	SendHook::jumpBackSend = addrSendFunc + 0x6;
 
-
 	auto addrRecvFunc = FindPattern("_FoY.exe", "\x3B\xC3\x7E\x22\x8D", "xxxxx");
 	addrRecvFunc += 10;
 	Console::writeLine("addrRecvFunc : %02X", addrRecvFunc);
 	PlaceJMP(reinterpret_cast<BYTE*>(addrRecvFunc), DWORD(RecvHook::readPacketRecv));
 	RecvHook::jumpBackRecv = addrRecvFunc + 0x5;
-
 }
 
 void processCmd(string &input) {
@@ -61,15 +60,15 @@ DWORD WINAPI sendServerThread()
 
 	for (;; Sleep(150))
 	{
+		if (GetAsyncKeyState(VK_UP))
+		{
+			Actions::walkXY(160, 260);
+		}
+
 		string cmd;
 		getline(cin, cmd);
 		processCmd(cmd);
 
-
-		if (GetAsyncKeyState(VK_UP))
-		{
-			
-		}
 	}
 }
 
