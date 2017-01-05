@@ -19,6 +19,10 @@ inline void Store::printEntities() {
 	cout << endl  << "Entities : " << endl;
 	for (auto const& entity : Store::entities)
 	{
+		if(entity.second == nullptr)
+		{
+			continue;
+		}
 		cout
 			<< entity.first  // (key)
 			<< ':'
