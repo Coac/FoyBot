@@ -2,7 +2,6 @@
 #pragma comment(lib, "Ws2_32.lib")
 
 #include "Console.hpp"
-#include "Hooks.h"
 #include "SendHook.hpp"
 #include "RecvHook.hpp"
 #include"StringUtils.h"
@@ -10,8 +9,8 @@
 void InitiateHooks()
 {
 	auto addrSendFunc = FindPattern("_FoY.exe", "\x55\x8B\xEC\x56\x8B\xF1\x80\x7E\x78\x00", "xxxxxxxxxx");
-	sendFunctionAddr = addrSendFunc;
-	Console::writeLine("sendFunctionAddr : %02X", sendFunctionAddr);
+	SendHook::sendFunctionAddr = addrSendFunc;
+	Console::writeLine("sendFunctionAddr : %02X", SendHook::sendFunctionAddr);
 	PlaceJMP(reinterpret_cast<BYTE*>(addrSendFunc), DWORD(SendHook::readPacketBeforeSendHook));
 	SendHook::jumpBackSend = addrSendFunc + 0x6;
 
@@ -46,7 +45,7 @@ void processCmd(string &input) {
 			// osnume red Novice potion
 			//BYTE data[] = { 0x39, 0x04, 0x02, 0x00, 0xE9, 0x92, 0x1E, 0x00 }; 
 
-			Send_To_Server(LPBYTE(buffer), size);
+			SendHook::sendPacket(LPBYTE(buffer), size);
 		}
 	}
 

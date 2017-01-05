@@ -85,7 +85,6 @@
     <ClInclude Include="Console.hpp" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="Memory.h" />
-    <ClInclude Include="Hooks.h" />
     <ClInclude Include="PacketUtils.hpp" />
     <ClInclude Include="RecvHook.hpp" />
     <ClInclude Include="SendHook.hpp" />

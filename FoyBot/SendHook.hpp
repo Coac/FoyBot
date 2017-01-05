@@ -10,14 +10,36 @@ class SendHook
 private:
 
 public:
-	static void readPacketBeforeSendHook();
-	static void processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize);
-
 	static DWORD jumpBackSend;
 	static DWORD stackElementNotUsed;
 	static unsigned int packetSize;
 	static DWORD addrInDumpPacket;
+	static void readPacketBeforeSendHook();
+
+	static DWORD sendFunctionAddr;
+	static LPBYTE ptrToDetermine;
+	static void sendPacket(LPBYTE Buffer, unsigned int packetSize);
+
+private:
+	static void processSendPacket(const DWORD &addrInDumpPacket, unsigned int  &packetSize);
+
 };
+
+DWORD SendHook::sendFunctionAddr = 0;
+LPBYTE SendHook::ptrToDetermine = nullptr;
+inline void SendHook::sendPacket(LPBYTE Buffer, unsigned int packetSize)
+{
+	Sleep(150);
+	ptrToDetermine = LPBYTE(0xC74900); // la valeur de ECX au moment du send
+
+	__asm
+	{
+		MOV ECX, ptrToDetermine
+		PUSH Buffer
+		PUSH packetSize
+		CALL sendFunctionAddr
+	}
+}
 
 DWORD SendHook::jumpBackSend = 0;
 DWORD SendHook::stackElementNotUsed = 0;
