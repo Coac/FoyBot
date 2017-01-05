@@ -149,6 +149,10 @@ inline void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned 
 		unsigned int packetLen = bytes[2];
 		Console::write("PacketLen=%d ", packetLen);
 
+		// Type
+		unsigned int entityType = bytes[4];
+		Console::write("EntityType=%d ", entityType);
+
 		// ID
 		unsigned int ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
 		Console::write("ID=%08X", ID);
@@ -168,37 +172,40 @@ inline void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned 
 		}
 		Console::write("Name=%s", name);
 
-		Store::entities[ID] = new Entity(ID, name, pos);
+		Store::entities[ID] = new Entity(ID, entityType, name, pos);
 		Store::printEntities();
 
 		Console::write("\n");
 
 		// Print packet, non used bytes
-		for (auto i = 0; i < packetSize; i++)
-		{
-			if (i < 2 || i >= 59 && i <= 61 || i >= 5 && i <= 8 || i>=71) {
-				Console::setColor(8);
-			}
-			else {
-				Console::setColor(7);
-			}
-			Console::write("%02X", bytes[i]);
-		}
-		Console::write("\n");
-
+		//for (auto i = 0; i < packetSize; i++)
+		//{
+		//	if (i < 2 || i >= 59 && i <= 61 || i >= 5 && i <= 8 || i>=71) {
+		//		Console::setColor(8);
+		//	}
+		//	else {
+		//		Console::setColor(7);
+		//	}
+		//	Console::write("%02X", bytes[i]);
+		//}
+		//Console::write("\n");
+		return;
 	}
-	break;
 	case 0x5708:
 	{
 		Console::write("[EntityAppear5708] ");
 		// Example
-		// 5708 57 0006 CF7D8E06 C8000000000000000000740000000000000000000000000000000000000000000000000000000000000000000000 290 7D 400000000000000 4B6166726120566F74696E6720537461666623707274
+		// 5708 57 000 6 CF7D8E06 C8000000000000000000740000000000000000000000000000000000000000000000000000000000000000000000 290 7D 400000000000000 4B6166726120566F74696E6720537461666623707274
 		//  57=packetLen   CF7D8E06 = NPC_ID                                                                                  290/4 = x                Name
-		//																													      7D = y
+		//	6=Type	         																							      7D = y
 
 		// PacketLen
 		unsigned int packetLen = bytes[2];
 		Console::write("PacketLen=%d ", packetLen);
+
+		// Type
+		unsigned int entityType = bytes[4];
+		Console::write("EntityType=%d ", entityType);
 
 		// NPC_ID
 		unsigned int NPC_ID = bytes[5] << 24 | bytes[6] << 16 | bytes[7] << 8 | bytes[8];
@@ -219,13 +226,12 @@ inline void RecvHook::processRecvPacket(const DWORD &addrInDumpPacket, unsigned 
 		}
 		Console::write("Name=%s", name);
 
-		Store::entities[NPC_ID] = new Entity(NPC_ID, name, pos);
+		Store::entities[NPC_ID] = new Entity(NPC_ID, entityType, name, pos);
 		Store::printEntities();
 
 		Console::write("\n");
-		//return;
+		return;
 	}
-	break;
 	default:
 		break;
 	}

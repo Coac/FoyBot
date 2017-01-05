@@ -75,7 +75,7 @@ inline void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned 
 		//0E + 259 % 4 = y pos
 
 		Console::write("\n");
-		break;
+		return;
 	}
 	case 0x6A09:
 	{
