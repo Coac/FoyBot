@@ -11,6 +11,7 @@ class Store
 public:
 	static map<unsigned int, Entity*> entities;
 	static void printEntities();
+	static Entity* getFirstMob();
 };
 
 map<unsigned int, Entity*> Store::entities;
@@ -29,4 +30,21 @@ inline void Store::printEntities() {
 			<< entity.second->toString() // value 
 			<< endl;
 	}
+}
+
+inline Entity* Store::getFirstMob() {
+	for (auto const& entity : Store::entities)
+	{
+		if (entity.second == nullptr)
+		{
+			continue;
+		}
+
+		if(entity.second->isMob())
+		{
+			return entity.second;
+		}
+	}
+
+	return nullptr;
 }

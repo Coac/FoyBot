@@ -22,36 +22,52 @@ void InitiateHooks()
 	RecvHook::jumpBackRecv = addrRecvFunc + 0x5;
 }
 
-void processCmd(string &input) {
-	vector<string> elems;
+
+DWORD WINAPI simpleMoveAI()
+{
+	for (;; Sleep(1000))
+	{
+		auto mob = Store::getFirstMob();
+		if (mob)
+		{
+			Actions:Actions::walkXY(mob->getPos()->getX(), mob->getPos()->getY());
+		}
+	}
+}
+
+void processCmd(string & input) {
+	vector <string> elems;
 	split(input, ' ', elems);
 
-	if (elems.size() < 2) {
-		cout << "Syntax not correct";
+	auto cmd = elems.front();
+
+	if (cmd == "send" && elems.size() == 2) {
+
+		char buffer[100];
+
+		auto size = hex2bin(strdup(elems.at(1).c_str()), buffer);
+
+		for (auto i = 0; i < sizeof(buffer); i++) {
+			cout << char(buffer[i] + 65);
+		}
+
+		// osnume red Novice potion
+		//BYTE data[] = { 0x39, 0x04, 0x02, 0x00, 0xE9, 0x92, 0x1E, 0x00 }; 
+
+		SendHook::sendPacket(LPBYTE(buffer), size);
+	}
+	else if (cmd == "walk" && elems.size() == 3) {
+		Actions::walkXY(stoi(elems.at(1)), stoi(elems.at(2)));
+	}
+	else if (cmd == "startAI") {
+		CreateThread(nullptr, NULL, LPTHREAD_START_ROUTINE(simpleMoveAI), nullptr, NULL, nullptr);
 	}
 	else {
-		auto cmd = elems.front();
-		if (cmd == "send") {		
-			char buffer[100];
-
-			auto size = hex2bin(strdup(elems.at(1).c_str()), buffer);
-
-			for (auto i = 0; i < sizeof(buffer); i++)
-			{
-				cout << char(buffer[i] + 65);
-			}
-
-			// osnume red Novice potion
-			//BYTE data[] = { 0x39, 0x04, 0x02, 0x00, 0xE9, 0x92, 0x1E, 0x00 }; 
-
-			SendHook::sendPacket(LPBYTE(buffer), size);
-		} else if (cmd == "walk" && elems.size() == 3) {
-			Actions::walkXY(stoi(elems.at(1)), stoi(elems.at(2)));
-		}
+		cout << "Syntax not correct";
 	}
 
 	cout << endl;
-	
+
 }
 
 LPBYTE addressss = nullptr;

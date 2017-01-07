@@ -12,6 +12,8 @@ public:
 	Entity(unsigned int id, unsigned int entityType, std::string name, Coord* pos);
 	string toString() const;
 	void setPos(Coord* newPos);
+	Coord* getPos() const;
+	bool isMob() const;
 };
 
 inline Entity::Entity(unsigned int id, unsigned int entityType, std::string name, Coord* pos) {
@@ -30,4 +32,14 @@ inline string Entity::toString() const
 
 inline void Entity::setPos(Coord* newPos) {
 	this->pos = newPos;
+}
+
+inline Coord* Entity::getPos() const
+{
+	return this->pos;
+}
+
+inline bool Entity::isMob() const
+{
+	return this->entityType == 0x5;
 }
