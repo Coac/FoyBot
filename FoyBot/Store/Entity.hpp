@@ -13,6 +13,7 @@ public:
 	string toString() const;
 	void setPos(Coord* newPos);
 	Coord* getPos() const;
+	unsigned int getId() const;
 	bool isMob() const;
 };
 
@@ -42,4 +43,9 @@ inline Coord* Entity::getPos() const
 inline bool Entity::isMob() const
 {
 	return this->entityType == 0x5;
+}
+
+inline unsigned int Entity::getId() const
+{
+	return this->id;
 }

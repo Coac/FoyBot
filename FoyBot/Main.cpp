@@ -31,6 +31,8 @@ DWORD WINAPI simpleMoveAI()
 		if (mob)
 		{
 			Actions:Actions::walkXY(mob->getPos()->getX(), mob->getPos()->getY());
+			Sleep(500);
+			Actions::attack(mob->getId());
 		}
 	}
 }
@@ -78,15 +80,9 @@ DWORD WINAPI sendServerThread()
 
 	for (;; Sleep(150))
 	{
-		if (GetAsyncKeyState(VK_UP))
-		{
-			Actions::walkXY(160, 260);
-		}
-
 		string cmd;
 		getline(cin, cmd);
 		processCmd(cmd);
-
 	}
 }
 
