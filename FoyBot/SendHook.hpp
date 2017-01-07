@@ -88,6 +88,25 @@ inline void SendHook::processSendPacket(const DWORD &addrInDumpPacket, unsigned 
 		Console::write("ID=%08X \n", ID);
 		return;
 	}
+	case 0x6903:
+	{
+		// Example
+		// 6903 6E50F406 07
+		//      6E50F406 = ID
+		//		07 = ActionType
+
+		auto actionType = bytes[6];
+
+		if(actionType == 0x7)
+		{
+			Console::write("[Attack] ");
+
+			auto ID = bytes[2] << 24 | bytes[3] << 16 | bytes[4] << 8 | bytes[5];
+			Console::write("ID=%08X \n", ID);
+		}
+
+		break;
+	}
 	case 0x5F03:
 		Console::write("[HeartBeat]\n");
 		return;
